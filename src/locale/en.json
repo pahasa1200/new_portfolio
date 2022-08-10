@@ -1,0 +1,17 @@
+{
+  "common": {
+    "chat": "Chat",
+    "about": "About",
+    "projects": "Projects"
+  },
+  "chat": {
+    "send": "Send",
+    "you": "You",
+    "error": "Error, reload page and provide valid username!",
+    "input": "Please input",
+    "usersOnline": "Users online"
+  },
+  "navbar": {
+    "contactWithMe": "Contact with me"
+  }
+}
