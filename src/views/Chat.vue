@@ -71,7 +71,6 @@ export default defineComponent({
 
     function isConnected() {
       if (!socket.value.connected) {
-        console.log('Websocket connecting!!!');
         socket.value = io('http://localhost:8081');
         socket.value.on('connect', () => {
           connect();
