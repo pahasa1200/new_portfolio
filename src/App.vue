@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import './styles/main.scss';
 
 export default defineComponent({
 

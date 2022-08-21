@@ -4,12 +4,12 @@
       <a><p><strong>Pavel</strong> Zharski</p></a>
     </div>
     <div class="navbar__links">
-      <router-link to="">{{ t('common.about') }}</router-link>
-      <router-link to="">{{ t('common.projects') }}</router-link>
-      <router-link to="">{{ t('common.chat') }}</router-link>
+      <router-link class="navbar__link" to="">{{ t('common.about').toUpperCase() }}</router-link>
+      <router-link class="navbar__link" to="">{{ t('common.projects').toUpperCase() }}</router-link>
+      <router-link class="navbar__link" to="">{{ t('common.chat').toUpperCase() }}</router-link>
     </div>
     <div class="navbar__contact">
-      <router-link to="">{{ t('navbar.contactWithMe') }}</router-link>
+      <router-link to=""><i class="el-icon-message"></i></router-link>
     </div>
   </div>
 </template>
@@ -27,18 +27,40 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+  .navbar__link:hover {
+    color: #4b4cdb;
+    //text-shadow: 1px 10px 10px rgba(66, 68, 90, 1);
+  }
+
+  .el-icon-message {
+    margin-left: 100px;
+    font-size: 1.5rem;
+  }
+
+  .el-icon-message:hover {
+    color: #4b4cdb;
+    transform: scale(1.5);
+    transition: all ease 0.3s;
+  }
+
   .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: #edf2f8;
   }
+
+  .navbar__logo {
+    font-size: 1.4rem;
+  }
+
   .navbar__contact {
     a {
       text-decoration: 0;
       color: black;
     }
   }
+
   .navbar__links {
     display: flex;
     align-items: center;
