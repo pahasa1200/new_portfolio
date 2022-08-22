@@ -12,16 +12,22 @@
         <div class="navSection__mainBlock__images">
           <img src="../assets/js.png" alt="JavaScript"/>
           <div class="sun">
-            <img class="dot" style="width: 40px" src="../assets/react.png" alt="JavaScript"/>
-            <img class="dot-2" style="width: 40px" src="../assets/vue.png" alt="JavaScript"/>
-            <img class="dot-3" style="width: 40px" src="../assets/html.png" alt="JavaScript"/>
-            <img class="dot-4" style="width: 40px" src="../assets/css.png" alt="JavaScript"/>
+            <img class="dot-1" style="width: 40px" src="../assets/react.png" alt="React"/>
+            <img class="dot-2" style="width: 40px" src="../assets/vue.png" alt="Vue"/>
+            <img class="dot-3" style="width: 40px" src="../assets/html.png" alt="HTML"/>
+            <img class="dot-4" style="width: 40px" src="../assets/css.png" alt="CSS"/>
           </div>
         </div>
       </div>
       <div class="navSection__footer">
-        <img style="width: 40px" src="../assets/linkedin.png" alt="JavaScript"/>
-        <img style="width: 35px; height: 35px" src="../assets/instagram.png" alt="JavaScript"/>
+        <img class="navSection__footer__image"
+             src="../assets/linkedin.png"
+             alt="JavaScript"/>
+        <img
+          class="navSection__footer__image instagram"
+          src="../assets/instagram.png"
+          alt="JavaScript"
+        />
       </div>
     </section>
     <div class="sections-menu">
@@ -189,9 +195,16 @@ export default defineComponent({
     margin-top: -60px;
     align-items: center;
 
-    img {
+    &__image {
+      width: 40px;
       margin: 5px;
     }
+
+    &__image.instagram {
+      width: 35px;
+      height: 35px;
+    }
+
   }
 
   &__mainBlock {
@@ -285,7 +298,7 @@ h1.black {
   transform: scale(1.5);
 }
 
-.dot {
+.dot-1 {
   position:absolute;
   top: 0;
   bottom: 200px;
