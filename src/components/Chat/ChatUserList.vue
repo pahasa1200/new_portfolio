@@ -41,6 +41,7 @@ export default defineComponent({
 <style lang="scss">
 .chat-user-list {
   padding: 10px 0;
+
   &__user {
     padding: 0 10px;
     text-align: left;

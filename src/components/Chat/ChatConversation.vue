@@ -58,6 +58,7 @@ export default defineComponent({
     padding: 0 10px;
     text-align: left;
   }
+
   &__message.rightSide {
     text-align: right;
   }

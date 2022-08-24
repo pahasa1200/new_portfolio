@@ -4,9 +4,9 @@
       <a><p><strong>Pavel</strong> Zharski</p></a>
     </div>
     <div class="navbar__links">
-      <router-link class="navbar__link" to="">{{ t('common.about').toUpperCase() }}</router-link>
-      <router-link class="navbar__link" to="">{{ t('common.projects').toUpperCase() }}</router-link>
-      <router-link class="navbar__link" to="">{{ t('common.chat').toUpperCase() }}</router-link>
+      <router-link class="link" to="">{{ t('common.about').toUpperCase() }}</router-link>
+      <router-link class="link" to="">{{ t('common.projects').toUpperCase() }}</router-link>
+      <router-link class="link" to="">{{ t('common.chat').toUpperCase() }}</router-link>
     </div>
     <div class="navbar__contact">
       <router-link to=""><i class="el-icon-message"></i></router-link>
@@ -27,10 +27,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .navbar__link:hover {
-    color: #4b4cdb;
-  }
-
   .el-icon-message {
     margin-left: 100px;
     font-size: 1.5rem;
@@ -64,6 +60,10 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .link:hover {
+      color: #4b4cdb;
+    }
 
     a {
       margin-right: 10px;
