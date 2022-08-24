@@ -1,44 +1,6 @@
 <template>
   <div class="home">
-    <section class="navSection container">
-      <Navbar class="navSection__nav" />
-      <div class="navSection__mainBlock">
-        <div class="navSection__mainBlock__container">
-          <h3 class="navSection__mainBlock__welcomeText">-Hello! I am Pavel.</h3>
-          <h2 class="navSection__mainBlock__title" style="text-align: center">
-            FRONT END DEVELOPER
-          </h2>
-        </div>
-        <div class="navSection__mainBlock__images">
-          <img src="../assets/js.png" alt="JavaScript"/>
-          <div class="sun">
-            <img class="dot-1" style="width: 40px" src="../assets/react.png" alt="React"/>
-            <img class="dot-2" style="width: 40px" src="../assets/vue.png" alt="Vue"/>
-            <img class="dot-3" style="width: 40px" src="../assets/html.png" alt="HTML"/>
-            <img class="dot-4" style="width: 40px" src="../assets/css.png" alt="CSS"/>
-          </div>
-        </div>
-      </div>
-      <div class="navSection__footer">
-        <img class="navSection__footer__image"
-             src="../assets/linkedin.png"
-             alt="JavaScript"/>
-        <img
-          class="navSection__footer__image instagram"
-          src="../assets/instagram.png"
-          alt="JavaScript"
-        />
-      </div>
-    </section>
-    <div class="sections-menu">
-      <span
-        class="menu-point"
-        v-bind:class="{ active: activeSection === Number(index) }"
-        v-on:click="scrollToSection(Number(index))"
-        v-for="(offset, index) in offsets"
-        v-bind:key="index">
-      </span>
-    </div>
+    <MainSection />
     <section class="fullpage blue">
       <h1>Vue.js Fullpage Scroll</h1>
       <p>by <a href="https://webdeasy.de/?referer=cp-NVOEBL" target="_blank">WebDEasy</a></p>
@@ -57,6 +19,15 @@
         href="https://webdeasy.de/en/programming-vue-js-fullpage-scroll/?referer=cp-NVOEBL"
         target="_blank">here</a></p>
     </section>
+    <div class="sections-menu">
+      <span
+        class="menu-point"
+        v-bind:class="{ active: activeSection === Number(index) }"
+        v-on:click="scrollToSection(Number(index))"
+        v-for="(offset, index) in offsets"
+        v-bind:key="index">
+      </span>
+    </div>
   </div>
 </template>
 
@@ -64,10 +35,11 @@
 import {
   defineComponent, onMounted, onUnmounted, reactive, ref,
 } from 'vue';
-import Navbar from '@/components/Navbar.vue';
+import MainSection from '@/components/Sections/MainSetion.vue';
 
 export default defineComponent({
-  components: { Navbar },
+
+  components: { MainSection },
 
   setup() {
     const inMove = ref(false);
@@ -153,7 +125,6 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      // window.removeEventListener('mousewheel', handleMouseWheel); // Other browsers
       window.removeEventListener('wheel', handleMouseWheelDOM); // Mozilla Firefox
       window.removeEventListener('touchstart', touchStart); // mobile devices
       window.removeEventListener('touchmove', touchMove); // mobile devices
@@ -184,50 +155,6 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.navSection {
-  height: 100vh;
-  background: #edf2f8;
-
-  &__footer {
-    display: flex;
-    margin-top: -60px;
-    align-items: center;
-
-    &__image {
-      width: 40px;
-      margin: 5px;
-    }
-
-    &__image.instagram {
-      width: 35px;
-      height: 35px;
-    }
-
-  }
-
-  &__mainBlock {
-    height: 100%;
-    margin-top: -73px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    &__welcomeText {
-      color: #4b4cdb;
-    }
-
-    &__title {
-      font-size: 3rem;
-      margin-top: 10px;
-    }
-
-    img {
-      max-height: 200px;
-      position: relative;
-    }
-  }
 }
 
 h1 {
@@ -296,59 +223,6 @@ h1.black {
 .sections-menu .menu-point.active {
   opacity: 1;
   transform: scale(1.5);
-}
-
-.dot-1 {
-  position:absolute;
-  top: 0;
-  bottom: 200px;
-  left: 0;
-  right: -100px;
-}
-
-.dot-2 {
-  position: absolute;
-  top: 200px;
-  bottom: 0;
-  right: 0;
-  left: -100px;
-}
-
-.dot-3 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 200px;
-  right: 100px;
-  margin-left: 115px;
-}
-
-.dot-4 {
-  position: absolute;
-  bottom: 0;
-  top: 200px;
-  right: 0;
-  left: 100px;
-}
-
-.sun {
-  width: 250px;
-  height: 300px;
-  position: absolute;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-name: orbit-fae5bece;
-  -webkit-animation-duration: 5s;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-timing-function: linear;
-  -moz-animation-name: orbit-fae5bece;
-  -moz-animation-duration: 5s;
-  top: 30%;
-  right: 13%;
-
-  @include for-size(phone-only) {
-    display: none;
-  }
 }
 
 @-webkit-keyframes orbit {

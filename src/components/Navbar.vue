@@ -29,7 +29,6 @@ export default defineComponent({
 <style lang="scss" scoped>
   .navbar__link:hover {
     color: #4b4cdb;
-    //text-shadow: 1px 10px 10px rgba(66, 68, 90, 1);
   }
 
   .el-icon-message {

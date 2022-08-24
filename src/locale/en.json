@@ -2,7 +2,8 @@
   "common": {
     "chat": "Chat",
     "about": "About",
-    "projects": "Projects"
+    "projects": "Projects",
+    "frontEndDeveloper": "Front End Developer"
   },
   "chat": {
     "send": "Send",
@@ -13,5 +14,8 @@
   },
   "navbar": {
     "contactWithMe": "Contact with me"
+  },
+  "main": {
+    "hello": "-Hello! I am Pavel."
   }
 }
