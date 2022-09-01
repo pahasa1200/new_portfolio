@@ -182,23 +182,25 @@ p {
 }
 
 .red {
-  background-color: #ab4545;
+  background-color: #000;
+  color: white;
 }
 
 section.black {
-  background-color: #000;
+  background: #edf2f8;
 }
 
 .blue {
-  background-color: #237ad4;
+  background-color: #000;
+  color: white;
 }
 
 .green {
-  background-color: #68c368;
+  background: #edf2f8;;
 }
 
 h1.black {
-  color: #000;
+  color: #FFFFFF;
 }
 
 .sections-menu {

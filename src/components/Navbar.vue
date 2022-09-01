@@ -27,8 +27,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+  a, .navbar__contact {
+    z-index: 99;
+  }
+
   .el-icon-message {
-    margin-left: 100px;
     font-size: 1.5rem;
   }
 
