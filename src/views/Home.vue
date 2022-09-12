@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <MainSection />
+    <MainSection class="main"/>
     <section class="fullpage blue">
       <h1>Vue.js Fullpage Scroll</h1>
       <p>by <a href="https://webdeasy.de/?referer=cp-NVOEBL" target="_blank">WebDEasy</a></p>
@@ -29,113 +29,102 @@
       </span>
     </div>
   </div>
+  <el-backtop :bottom="100"/>
+  м
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent, onMounted, onUnmounted, reactive, ref,
+  onMounted, onUnmounted, reactive, ref,
 } from 'vue';
 import MainSection from '@/components/Sections/MainSetion.vue';
 
-export default defineComponent({
+const inMove = ref(false);
+const activeSection = ref(0);
+const offsets: any = reactive([]);
+const touchStartY = ref(0);
 
-  components: { MainSection },
+const scrollToSection = (id: number, force = false) => {
+  if (inMove.value && !force) return false;
+  activeSection.value = id;
+  inMove.value = true;
+  document.getElementsByTagName('section')[id].scrollIntoView({
+    behavior: 'smooth',
+  });
+  setTimeout(() => {
+    inMove.value = false;
+  }, 1000);
+  return true;
+};
 
-  setup() {
-    const inMove = ref(false);
-    const activeSection = ref(0);
-    const offsets: any = reactive([]);
-    const touchStartY = ref(0);
+const calculateSectionOffsets = () => {
+  const sections = document.getElementsByTagName('section');
+  const { length } = sections;
+  for (let i = 0; i < length; i += 1) {
+    const sectionOffset = sections[i].offsetTop;
+    offsets.push(sectionOffset);
+  }
+};
 
-    const scrollToSection = (id: number, force = false) => {
-      if (inMove.value && !force) return false;
-      activeSection.value = id;
-      inMove.value = true;
-      document.getElementsByTagName('section')[id].scrollIntoView({
-        behavior: 'smooth',
-      });
-      setTimeout(() => {
-        inMove.value = false;
-      }, 1000);
-      return true;
-    };
+const moveDown = () => {
+  inMove.value = true;
+  activeSection.value -= 1;
+  if (activeSection.value < 0) activeSection.value = offsets.length - 1;
+  scrollToSection(activeSection.value, true);
+};
 
-    const calculateSectionOffsets = () => {
-      const sections = document.getElementsByTagName('section');
-      const { length } = sections;
-      for (let i = 0; i < length; i += 1) {
-        const sectionOffset = sections[i].offsetTop;
-        offsets.push(sectionOffset);
-      }
-    };
+const moveUp = () => {
+  inMove.value = true;
+  activeSection.value += 1;
+  if (activeSection.value > offsets.length - 1) activeSection.value = 0;
+  scrollToSection(activeSection.value, true);
+};
 
-    const moveDown = () => {
-      inMove.value = true;
-      activeSection.value -= 1;
-      if (activeSection.value < 0) activeSection.value = offsets.length - 1;
-      scrollToSection(activeSection.value, true);
-    };
+const handleMouseWheelDOM = (e: WheelEvent) => {
+  if (e.deltaY > 0 && !inMove.value) {
+    moveUp();
+  } else if (e.deltaY < 0 && !inMove.value) {
+    moveDown();
+  }
+  e.preventDefault();
+  return false;
+};
 
-    const moveUp = () => {
-      inMove.value = true;
-      activeSection.value += 1;
-      if (activeSection.value > offsets.length - 1) activeSection.value = 0;
-      scrollToSection(activeSection.value, true);
-    };
+const touchStart = (e: TouchEvent) => {
+  e.preventDefault();
+  touchStartY.value = e.touches[0].clientY;
+};
 
-    const handleMouseWheelDOM = (e: WheelEvent) => {
-      if (e.deltaY > 0 && !inMove.value) {
-        moveUp();
-      } else if (e.deltaY < 0 && !inMove.value) {
-        moveDown();
-      }
-      e.preventDefault();
-      return false;
-    };
+const touchMove = (e: TouchEvent) => {
+  if (inMove.value) return false;
+  e.preventDefault();
+  const currentY = e.touches[0].clientY;
+  if (touchStartY.value < currentY) {
+    moveDown();
+  } else {
+    moveUp();
+  }
+  touchStartY.value = 0;
+  return false;
+};
 
-    const touchStart = (e: TouchEvent) => {
-      e.preventDefault();
-      touchStartY.value = e.touches[0].clientY;
-    };
+onMounted(() => {
+  window.addEventListener('wheel', handleMouseWheelDOM, {
+    passive: false,
+  }); // Mozilla Firefox
+  window.addEventListener('touchstart', touchStart, {
+    passive: false,
+  }); // mobile devicesd
+  window.addEventListener('touchmove', touchMove, {
+    passive: false,
+  }); // mobile device
+  calculateSectionOffsets();
+});
 
-    const touchMove = (e: TouchEvent) => {
-      if (inMove.value) return false;
-      e.preventDefault();
-      const currentY = e.touches[0].clientY;
-      if (touchStartY.value < currentY) {
-        moveDown();
-      } else {
-        moveUp();
-      }
-      touchStartY.value = 0;
-      return false;
-    };
-
-    onMounted(() => {
-      window.addEventListener('wheel', handleMouseWheelDOM, {
-        passive: false,
-      }); // Mozilla Firefox
-      window.addEventListener('touchstart', touchStart, {
-        passive: false,
-      }); // mobile devicesd
-      window.addEventListener('touchmove', touchMove, {
-        passive: false,
-      }); // mobile device
-      calculateSectionOffsets();
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('wheel', handleMouseWheelDOM); // Mozilla Firefox
-      window.removeEventListener('touchstart', touchStart); // mobile devices
-      window.removeEventListener('touchmove', touchMove); // mobile devices
-    });
-
-    return {
-      activeSection,
-      offsets,
-      scrollToSection,
-    };
-  },
+onUnmounted(() => {
+  window.removeEventListener('wheel', handleMouseWheelDOM); // Mozilla Firefox
+  window.removeEventListener('touchstart', touchStart); // mobile devices
+  window.removeEventListener('touchmove', touchMove); // mobile devices
 });
 </script>
 
@@ -228,12 +217,21 @@ h1.black {
 }
 
 @-webkit-keyframes orbit {
-  from { -webkit-transform:rotate(0deg) }
-  to { -webkit-transform:rotate(360deg) }
+  from {
+    -webkit-transform: rotate(0deg)
+  }
+  to {
+    -webkit-transform: rotate(360deg)
+  }
 }
+
 @-moz-keyframes orbit {
-  from { -moz-transform:rotate(0deg) }
-  to { -moz-transform:rotate(360deg) }
+  from {
+    -moz-transform: rotate(0deg)
+  }
+  to {
+    -moz-transform: rotate(360deg)
+  }
 }
 
 </style>

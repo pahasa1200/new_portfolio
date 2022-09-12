@@ -7,47 +7,48 @@
       :message="message"
       v-bind:key="message.id">
       <strong>
-        {{ userObject.name !== message.user.name  ? message.user.name : $t('chat.you') }}:
+        {{ userObject.name !== message.user.name ? message.user.name : t('chat.you') }}:
       </strong>
       {{ message.message }}
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent, onMounted, reactive,
+  onMounted, reactive,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Socket } from 'socket.io-client';
 
-export default defineComponent({
-  props: {
-    socket: {
-      type: Object,
-      required: true,
-    },
-    userObject: {
-      type: Object,
-      required: true,
-    },
-  },
+interface ClientToServerEvents {
+  message: (data: never) => void;
+}
 
-  setup(props) {
-    let messages = reactive([]);
-    const { t } = useI18n();
+interface InterServerEvents {
+  disconnect: () => void;
+}
 
-    onMounted(() => {
-      props.socket.on('message', (data: never) => {
-        messages.push(data);
-      });
-      props.socket.on('disconnect', () => {
-        messages = [];
-      });
-    });
+interface Props {
+  socket: Socket<ClientToServerEvents, InterServerEvents>;
+  userObject: Record<any, string>;
+}
 
-    return { messages, t };
-  },
+// eslint-disable-next-line no-undef
+const props = defineProps<Props>();
+
+let messages = reactive([]);
+const { t } = useI18n();
+
+onMounted(() => {
+  props.socket.on('message', (data) => {
+    messages.push(data);
+  });
+  props.socket.on('disconnect', () => {
+    messages = [];
+  });
 });
+
 </script>
 
 <style lang="scss">

@@ -7,34 +7,36 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Socket } from 'socket.io-client';
 
-export default defineComponent({
-  props: {
-    socket: {
-      type: Object,
-      required: true,
-    },
-  },
+interface ClientToServerEvents {
+  users: (users: Record<any, string>) => void;
+}
 
-  setup(props) {
-    const users = ref({});
-    const { t } = useI18n();
+interface InterServerEvents {
+  disconnect: () => void;
+}
 
-    onMounted(() => {
-      props.socket.on('users', (costumers: any) => {
-        users.value = costumers;
-      });
-      props.socket.on('disconnect', () => {
-        users.value = {};
-      });
-    });
+interface Props {
+  socket: Socket<ClientToServerEvents, InterServerEvents>;
+}
 
-    return { users, t };
-  },
+// eslint-disable-next-line no-undef
+const props = defineProps<Props>();
 
+const users = ref({});
+const { t } = useI18n();
+
+onMounted(() => {
+  props.socket.on('users', (costumers) => {
+    users.value = costumers;
+  });
+  props.socket.on('disconnect', () => {
+    users.value = {};
+  });
 });
 </script>
 

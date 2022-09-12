@@ -2,39 +2,28 @@
   <div class="button__container">
     <el-button
       class="chat__button"
-      @click="onClickCallback"
+      @click="emit('onClickCallback')"
       :type="buttonType"
     >
-      {{ t(`${ buttonText }`) }}
+      {{ t(buttonText) }}
     </el-button>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 
-export default defineComponent({
-  props: {
-    onClickCallback: {
-      type: Object,
-      required: true,
-    },
-    buttonText: {
-      type: String,
-      required: true,
-    },
-    buttonType: {
-      type: String,
-      default: 'primary',
-    },
-  },
+interface Props {
+  buttonText: string,
+  buttonType: string | 'primary',
+}
 
-  setup() {
-    const { t } = useI18n();
-    return { t };
-  },
-});
+// eslint-disable-next-line no-undef
+const props = defineProps<Props>();
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['onClickCallback']);
+
+const { t } = useI18n();
 </script>
 
 <style lang="scss" scoped>
